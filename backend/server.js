@@ -135,8 +135,8 @@ var users_ws = [];
 //      WEBSOCKET      //
 // ------------------- //
 wss.on('connection', function connection(ws, request, client) {
-    const urlParams = new URLSearchParams(request.url.replace('/?',''));
-    const user_id = urlParams.get('id');
+    const urlParams = new URL(request.headers.origin+request.url);
+    const user_id = urlParams.searchParams.get('id');
     if(user_id && !users_ws[user_id]) {
         users_ws[user_id] = ws;
         console.log(`WebSocket ${user_id} enregistrée !`);
@@ -151,4 +151,12 @@ wss.on('connection', function connection(ws, request, client) {
             users_ws[msg.receiver].send(JSON.stringify(msg));
         }
     }); 
+});
+
+wss.on('close', (ws, request, client) => {
+    const urlParams = new URL(request.headers.origin+request.url);
+    const user_id = urlParams.searchParams.get('id');
+
+    console.log(`Closing socket for user ${user_id}`);
+    users_ws[user_id] = undefined;
 });

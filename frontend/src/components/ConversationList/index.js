@@ -12,7 +12,7 @@ import './ConversationList.css';
 function ConversationList(props) {
     useEffect(() => {
         getConversations();
-    });
+    }, []);
 
     const setMessages = (messages) => {
         var msgArray = [];

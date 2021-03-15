@@ -14,11 +14,11 @@ const MY_USER_ID = sessionStorage.getItem("user.id");
 
 function MessageList(props) {
     const [timeout, setTimeout]   = useState();
-    const ws                      = new WebSocket(`ws://${config.host}/api/?id=${sessionStorage.getItem("user.id")}`);
+    const ws                      = new WebSocket(`ws://${config.host}/?id=${sessionStorage.getItem("user.id")}`);
 
     useEffect(() => {
         connect();
-    });
+    }, []);
 
     const reduxDispatch = (message) => {
         var msg = {
@@ -52,13 +52,14 @@ function MessageList(props) {
     }
     
     const sendMessage = async (socket, msg) => {
+        console.log(socket.readyState)
         if (socket.readyState !== socket.OPEN) {
             try {
                 await waitForOpenConnection(socket);
                 socket.send(msg);
-            } catch (err) { console.error(err) }
+            } catch (err) { config.debug && console.error(err) }
         } else {
-            socket.send(msg)
+            socket.send(msg);
         }
     }
 
@@ -68,7 +69,7 @@ function MessageList(props) {
      */
     const connect = async () => {
         var connectInterval;
-        console.log("Tentative de connexion avec le serveur...");
+        config.debug && console.log("Tentative de connexion avec le serveur...");
 
         // OnOpen Listener
         ws.onopen = () => {
@@ -80,7 +81,7 @@ function MessageList(props) {
 
         // OnClose Listenener
         ws.onclose = e => {
-            console.log(
+            config.debug && console.log(
                 `Connexion perdue avec le serveur... Nouvelle tentative de connexion dans ${Math.min(
                     10000 / 1000,
                     (timeout + timeout) / 1000
@@ -94,15 +95,13 @@ function MessageList(props) {
 
         // OnMessage Listener
         ws.onmessage = msg => {
-            console.log("Nouveau message socket: ", JSON.parse(msg.data));
+            config.debug && console.log("Nouveau message socket: ", JSON.parse(msg.data));
             reduxDispatch(JSON.parse(msg.data));
-
-            console.log('On messages : ', props.messages);
         };
 
         // OnError Listener
         ws.onerror = err => {
-            console.error(
+            config.debug && console.error(
                 "Erreur WS : ",
                 err.message,
                 "Fermeture de la socket !"
@@ -155,7 +154,7 @@ function MessageList(props) {
                         "Content-Type": "application/json",
                     }
             }).then(response => {
-                console.log(response);
+                config.debug && console.log(response);
             });
         }
     }

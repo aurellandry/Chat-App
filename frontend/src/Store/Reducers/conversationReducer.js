@@ -1,3 +1,5 @@
+import config from '../../config';
+
 const initialState = { rooms: [], currentRoom: "" }
 
 function updateConversations(state = initialState, action) {
@@ -12,7 +14,7 @@ function updateConversations(state = initialState, action) {
                 ]
             }
 
-            console.log(nextState);
+            config.debug && console.log(nextState);
 
             return nextState;
         case 'SET_ROOMS':

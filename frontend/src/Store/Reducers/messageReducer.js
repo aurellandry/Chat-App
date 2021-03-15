@@ -1,3 +1,5 @@
+import config from '../../config';
+
 const initialState = { messages: [] }
 
 function updateMessages(state = initialState, action) {
@@ -12,7 +14,7 @@ function updateMessages(state = initialState, action) {
                 ]
             }
 
-            console.log(nextState);
+            config.debug && console.log(nextState);
 
             return nextState;
         case 'SET_MESSAGES':
