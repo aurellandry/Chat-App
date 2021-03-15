@@ -1,5 +1,3 @@
-#Chat-App
-
 <b>Chat App</b> est un système de messagerie simple, calquée sur <b><i>Messenger</i></b> développé avec les technologies suivantes :
 
 * <b>Node.JS</b>
