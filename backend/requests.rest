@@ -1,0 +1,66 @@
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "aurellandry",
+    "password": "aurellandry"
+}
+
+###
+
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "aurellandry",
+    "name": "KENGNI",
+    "first_name": "Aurel Landry",
+    "email": "landrykengni@yahoo.com",
+    "password": "Aurel-chat@2021"
+}
+
+###
+
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "test_user",
+    "name": "User",
+    "first_name": "Test",
+    "email": "test@test.fr",
+    "password": "Test-chat@2021"
+}
+
+###
+
+GET http://localhost:3001/api/room
+Content-Type: application/json
+X-ACCESS-TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMmJmM2Y1ZGU0MWE1YjgzNmNkYjA5NiIsImlhdCI6MTYxNTIzMjMwMywiZXhwIjoxNjE1MzE4NzAzfQ.01vld6bZLZoe_Jwpb09unJ7-AJrK26bI0SbvuF1JROo
+
+{
+    "user_id": "602bf475de41a5b836cdb097"
+}
+
+###
+
+GET http://localhost:3001/api/room/messages
+Content-Type: application/json
+X-ACCESS-TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMmJmM2Y1ZGU0MWE1YjgzNmNkYjA5NiIsImlhdCI6MTYxNTIzMjMwMywiZXhwIjoxNjE1MzE4NzAzfQ.01vld6bZLZoe_Jwpb09unJ7-AJrK26bI0SbvuF1JROo
+
+{
+    "room_id": "60467c9bbd4fb8290097cd33"
+}
+
+###
+
+POST http://localhost:3001/api/room/messages/create
+Content-Type: application/json
+X-ACCESS-TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMmJmM2Y1ZGU0MWE1YjgzNmNkYjA5NiIsImlhdCI6MTYxNTIzMjMwMywiZXhwIjoxNjE1MzE4NzAzfQ.01vld6bZLZoe_Jwpb09unJ7-AJrK26bI0SbvuF1JROo
+
+{
+    "user_id": "602bf3f5de41a5b836cdb096",
+    "room_id": "60467c9bbd4fb8290097cd33",
+    "message": "Salut ça va ?",
+    "created_at": 1615236597932
+}
