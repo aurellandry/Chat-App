@@ -20,7 +20,7 @@ module.exports = function(app) {
     //      INSCRIPTION      //
     // --------------------- //
     app.post(
-        "/api/auth/register",
+        "/auth/register",
         [
             verifyRegister.checkDuplicateUsernameOrEmail,
             verifyRegister.checkRolesExisted
@@ -31,5 +31,5 @@ module.exports = function(app) {
     // --------------- //
     //      LOGIN      //
     // --------------- //
-    app.post("/api/auth/login", controller.login);
+    app.post("/auth/login", controller.login);
 };

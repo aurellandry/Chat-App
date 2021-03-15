@@ -5,6 +5,7 @@ import Toolbar from '../Toolbar/index';
 import ToolbarButton from '../ToolbarButton/index';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import config from '../../config';
 
 import './ConversationList.css';
 
@@ -62,7 +63,7 @@ function ConversationList(props) {
     const getConversations = () => {
         var currUserId = sessionStorage.getItem("user.id");
 
-        axios.get('http://localhost:3001/api/room', {
+        axios.get(`http://${config.host}/room`, {
             params: {
                 "user_id": sessionStorage.getItem("user.id")
             },

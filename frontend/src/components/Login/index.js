@@ -3,6 +3,7 @@ import Axios from 'axios';
 import PropTypes from 'prop-types';
 import { Alert, Form, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import config from '../../config';
 
 import "./Login.css";
 
@@ -27,7 +28,7 @@ export default function Login ({setToken}) {
     }
 
     const login = () => {
-        Axios.post("http://localhost:3001/api/auth/login", {
+        Axios.post(`http://${config.host}/auth/login`, {
             username: username,
             password: password,
         }).then((response) => {

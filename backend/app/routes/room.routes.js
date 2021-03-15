@@ -19,5 +19,5 @@ module.exports = function(app) {
     // --------------- //
     //      ROOMS      //
     // --------------- //
-    app.get("/api/room", authJwt.verifyToken, controller.getRooms);
+    app.get("/room", authJwt.verifyToken, controller.getRooms);
 };

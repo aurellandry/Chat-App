@@ -6,6 +6,7 @@ import Message from '../Message/index';
 import moment from 'moment';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import config from '../../config';
 
 import './MessageList.css';
 
@@ -13,7 +14,7 @@ const MY_USER_ID = sessionStorage.getItem("user.id");
 
 function MessageList(props) {
     const [timeout, setTimeout]   = useState();
-    const ws                      = new WebSocket("ws://localhost:3001/?id="+sessionStorage.getItem("user.id"));
+    const ws                      = new WebSocket(`ws://${config.host}/api/?id=${sessionStorage.getItem("user.id")}`);
 
     useEffect(() => {
         connect();
@@ -141,7 +142,7 @@ function MessageList(props) {
             event.target.msg_text.value = "";
 
             // Enregistrement du message en base de données
-            axios.post('http://localhost:3001/api/room/messages/create', 
+            axios.post(`http://${config.host}/room/messages/create`, 
                 {
                     "user_id": sessionStorage.getItem("user.id"),
                     "room_id": props.currentRoom.id,

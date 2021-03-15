@@ -19,6 +19,6 @@ module.exports = function(app) {
     // ----------------------- //
     //      ROOM MESSAGES      //
     // ----------------------- //
-    app.get("/api/room/messages", authJwt.verifyToken, controller.getRoomMessages);
-    app.post("/api/room/messages/create", authJwt.verifyToken, controller.createMessage);
+    app.get("/room/messages", authJwt.verifyToken, controller.getRoomMessages);
+    app.post("/room/messages/create", authJwt.verifyToken, controller.createMessage);
 };

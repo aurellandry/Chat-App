@@ -3,6 +3,7 @@ import Axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Register.css";
+import config from '../../config';
 
 const Register = () => {
     const [emailReg, setEmailReg] = useState("");
@@ -22,7 +23,7 @@ const Register = () => {
     }
 
     const register = () => {
-        Axios.post("http://localhost:3001/register", {
+        Axios.post(`http://${config.host}/register`, {
             email: emailReg,
             firstName: firstNameReg,
             lastName: lastNameReg,
