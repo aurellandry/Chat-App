@@ -53,7 +53,7 @@ function MessageList(props) {
     }
     
     const sendMessage = async (socket, msg) => {
-        console.log(socket.readyState)
+        config.debug && console.log(socket.readyState)
         if (socket.readyState !== socket.OPEN) {
             try {
                 await waitForOpenConnection(socket);
@@ -68,13 +68,13 @@ function MessageList(props) {
      * @function connect
      * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
      */
-    const connect = async () => {
+    const connect = async (ws) => {
         var connectInterval;
         config.debug && console.log("Tentative de connexion avec le serveur...");
 
         // OnOpen Listener
         ws.onopen = () => {
-            console.log("Connexion avec le serveur réussie.");
+            config.debug && console.log("Connexion avec le serveur réussie.");
 
             setTimeout(250); // reset timer to 250 on open of websocket connection 
             clearTimeout(connectInterval); // clear Interval on on open of websocket connection
