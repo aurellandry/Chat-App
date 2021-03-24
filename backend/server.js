@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express       = require("express");
 const cors          = require('cors');
 const bodyParser    = require("body-parser");
@@ -9,21 +8,8 @@ const HttpsServer   = require('https').createServer;
 const fs            = require("fs");
 const app           = express();
 const PORT          = process.env.PORT || '3001';
-
-var server;
-
-console.log(process.env.NODE_ENV)
-
-if(process.env.NODE_ENV == 'production') {
-    server = HttpsServer({
-        cert: fs.readFileSync(process.env.CERT_FILE),
-        key: fs.readFileSync(process.env.KEY_FILE)
-    });
-}
-else{
-    server = require('http').createServer(app);
-}
-const wss = new WebSocket.Server({server: server});
+const server        = require('http').createServer(app);
+const wss           = new WebSocket.Server({server: server});
 
 
 // CORS Middleware
