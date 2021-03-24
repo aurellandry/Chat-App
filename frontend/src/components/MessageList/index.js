@@ -15,7 +15,7 @@ const MY_USER_ID = sessionStorage.getItem("user.id");
 
 function MessageList(props) {
     const [timeout, setTimeout]   = useState();
-    const ws                      = new WebSocket(`${config.wsProtocol}://${config.host}/?id=${sessionStorage.getItem("user.id")}`);
+    const ws                      = new WebSocket(`${config.wsProtocol}://${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
 
     useEffect(() => {
         connect(ws);
