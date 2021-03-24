@@ -12,6 +12,8 @@ const PORT          = process.env.PORT || '3001';
 
 var server;
 
+console.log(process.env.NODE_ENV)
+
 if(process.env.NODE_ENV == 'production') {
     server = HttpsServer({
         cert: fs.readFileSync(process.env.CERT_FILE),
