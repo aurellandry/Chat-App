@@ -15,11 +15,10 @@ const MY_USER_ID = sessionStorage.getItem("user.id");
 
 function MessageList(props) {
     const [timeout, setTimeout]   = useState();
-    const ws                      = new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
 
     useEffect(() => {
-        connect(ws);
-    }, [ws]);
+        connectWs(props.ws);
+    }, [props.ws]);
 
     const reduxDispatch = (message) => {
         var msg = {
@@ -68,7 +67,7 @@ function MessageList(props) {
      * @function connect
      * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
      */
-    const connect = async (ws) => {
+    const connectWs = async (ws) => {
         var connectInterval;
         config.debug && console.log("Tentative de connexion avec le serveur...");
 
@@ -91,7 +90,7 @@ function MessageList(props) {
             );
 
             setTimeout(timeout + timeout); //increment retry interval
-            connectInterval = setTimeout(check, Math.min(10000, timeout)); //call check function after timeout
+            connectInterval = setTimeout(check(ws), Math.min(10000, timeout)); //call check function after timeout
         };
 
         // OnMessage Listener
@@ -116,8 +115,8 @@ function MessageList(props) {
     /**
      * Vérifier si la connexion websocket est fermée, et retenter une connexion le cas échéant
      */
-    const check = () => {
-        if (!ws || ws.readyState === WebSocket.CLOSED) connect(); //check if websocket instance is closed, if so call `connect` function.
+    const check = (ws) => {
+        if (!ws || ws.readyState === WebSocket.CLOSED) connectWs(ws); //check if websocket instance is closed, if so call `connect` function.
     };
 
 
@@ -137,7 +136,7 @@ function MessageList(props) {
             };
 
             // Envoi du message au destinataire
-            sendMessage(ws, JSON.stringify(msg));
+            sendMessage(props.ws, JSON.stringify(msg));
             reduxDispatch(msg);
             event.target.msg_text.value = "";
 
