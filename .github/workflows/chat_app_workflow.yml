@@ -25,12 +25,8 @@ jobs:
 
       # Installation des dépendances
       - name: Install npm dependencies
-        run: cd backend && npm install
-        run: cd ../frontend && npm install
-        run: cd ..
+        run: sh ./scripts/install-dependencies.sh
 
       # Lancement de l'application
       - name: Build Chat-App
-        run: cd frontend && npm run build
-        run: cp -r build/* /var/www/chat-app && cd ..
-        run: cd backend && pm2 restart backend-server
+        run: sh ./scripts/build-app.sh
