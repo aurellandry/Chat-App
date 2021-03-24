@@ -1,11 +1,12 @@
 import config from '../../config';
+import states from '../States/states';
 
 const initialState = { messages: [] }
 
 function updateMessages(state = initialState, action) {
     let nextState;
     switch (action.type) {
-        case 'ADD_MESSAGE':
+        case states.ADD_MESSAGE:
             nextState = {
                 ...state,
                 messages: [
@@ -17,7 +18,7 @@ function updateMessages(state = initialState, action) {
             config.debug && console.log(nextState);
 
             return nextState;
-        case 'SET_MESSAGES':
+        case states.SET_MESSAGES:
             nextState = {
                 ...state,
                 messages: [...action.payload]

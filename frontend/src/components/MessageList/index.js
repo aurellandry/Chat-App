@@ -7,6 +7,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import config from '../../config';
+import states from '../../Store/States/states';
 
 import './MessageList.css';
 
@@ -17,8 +18,8 @@ function MessageList(props) {
     const ws                      = new WebSocket(`ws://${config.host}/?id=${sessionStorage.getItem("user.id")}`);
 
     useEffect(() => {
-        connect();
-    }, []);
+        connect(ws);
+    }, [ws]);
 
     const reduxDispatch = (message) => {
         var msg = {
@@ -28,7 +29,7 @@ function MessageList(props) {
             timestamp: (new Date(message.created_at)).getTime()
         }
 
-        const action = { type: "ADD_MESSAGE", payload: msg }
+        const action = { type: states.ADD_MESSAGE, payload: msg }
         props.dispatch(action);
     }
 

@@ -6,34 +6,35 @@ import ToolbarButton from '../ToolbarButton/index';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import config from '../../config';
+import states from '../../Store/States/states';
 
 import './ConversationList.css';
 
 function ConversationList(props) {
     useEffect(() => {
         getConversations();
-    }, []);
+    }, [props.messages]);
 
     const setMessages = (messages) => {
         var msgArray = [];
 
         messages.forEach(element => {
-          var msg = {
-              id: props.messages.length+1,
-              author: element.created_by,
-              message: element.text,
-              timestamp: (new Date(element.created_at)).getTime()
-          }
+            var msg = {
+                id: props.messages.length+1,
+                author: element.created_by,
+                message: element.text,
+                timestamp: (new Date(element.created_at)).getTime()
+            }
 
-          msgArray.push(msg);
+            msgArray.push(msg);
         });
 
-        const action = { type: "SET_MESSAGES", payload: msgArray }
+        const action = { type: states.SET_MESSAGES, payload: msgArray }
         props.dispatch(action);
     }
 
     const setConversations = (rooms) => {
-        const action = { type: "SET_ROOMS", payload: rooms }
+        const action = { type: states.SET_ROOMS, payload: rooms }
         props.dispatch(action);
     }
 
@@ -47,7 +48,7 @@ function ConversationList(props) {
             };
         });
 
-        props.dispatch({ type: "SET_CURRENT_ROOM", payload: currentRoom });
+        props.dispatch({ type: states.SET_CURRENT_ROOM, payload: currentRoom });
         setMessages(currentRoom.messages);
     }
 
@@ -88,27 +89,27 @@ function ConversationList(props) {
     }
 
     return (
-      <div className="conversation-list">
-        <Toolbar
-          title="Messenger"
-          leftItems={[
-            <ToolbarButton key="cog" icon="ion-ios-cog" />
-          ]}
-          rightItems={[
-            <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />
-          ]}
-        />
-        <ConversationSearch />
-        {
-          props.rooms.map(conversation =>
-            <ConversationListItem
-                key={conversation.name}
-                data={conversation}
-                onClick={() => handleConvClick(conversation.id, conversation.receiver)}
+        <div className="conversation-list">
+            <Toolbar
+                title="Messenger"
+                leftItems={[
+                    <ToolbarButton key="cog" icon="ion-ios-cog" />
+                ]}
+                rightItems={[
+                    <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />
+                ]}
             />
-          )
-        }
-      </div>
+            <ConversationSearch />
+            {
+                props.rooms.map(conversation =>
+                    <ConversationListItem
+                        key={conversation.name}
+                        data={conversation}
+                        onClick={() => handleConvClick(conversation.id, conversation.receiver)}
+                    />
+                )
+            }
+        </div>
     );
 }
 

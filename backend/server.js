@@ -151,6 +151,11 @@ wss.on('connection', function connection(ws, request, client) {
             users_ws[msg.receiver].send(JSON.stringify(msg));
         }
     }); 
+
+    ws.on('close', () => {
+        console.log('Connexion lost with user : ' + user_id);
+        users_ws[user_id] = undefined;
+    });
 });
 
 wss.on('close', (ws, request, client) => {

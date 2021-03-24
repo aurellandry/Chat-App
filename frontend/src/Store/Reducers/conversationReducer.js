@@ -1,11 +1,12 @@
 import config from '../../config';
+import states from '../States/states';
 
 const initialState = { rooms: [], currentRoom: "" }
 
 function updateConversations(state = initialState, action) {
     let nextState;
     switch (action.type) {
-        case 'ADD_ROOM':
+        case states.ADD_ROOM:
             nextState = {
                 ...state,
                 rooms: [
@@ -17,14 +18,14 @@ function updateConversations(state = initialState, action) {
             config.debug && console.log(nextState);
 
             return nextState;
-        case 'SET_ROOMS':
+        case states.SET_ROOMS:
             nextState = {
                 ...state,
                 rooms: action.payload
             }
 
             return nextState;
-        case 'SET_CURRENT_ROOM':
+        case states.SET_CURRENT_ROOM:
             nextState = {
                 ...state,
                 currentRoom: action.payload
