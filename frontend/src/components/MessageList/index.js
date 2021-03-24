@@ -18,6 +18,9 @@ function MessageList(props) {
 
     useEffect(() => {
         connectWs(props.ws);
+        return () => {
+            props.ws.close();
+        };
     }, [props.ws]);
 
     const reduxDispatch = (message) => {
