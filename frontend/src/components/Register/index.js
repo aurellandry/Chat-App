@@ -23,7 +23,7 @@ const Register = () => {
     }
 
     const register = () => {
-        Axios.post(`http://${config.host}/register`, {
+        Axios.post(`${config.host}/register`, {
             email: emailReg,
             firstName: firstNameReg,
             lastName: lastNameReg,

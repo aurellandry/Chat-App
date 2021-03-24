@@ -142,7 +142,7 @@ function MessageList(props) {
             event.target.msg_text.value = "";
 
             // Enregistrement du message en base de données
-            axios.post(`http://${config.host}/room/messages/create`, 
+            axios.post(`${config.host}/room/messages/create`, 
                 {
                     "user_id": sessionStorage.getItem("user.id"),
                     "room_id": props.currentRoom.id,

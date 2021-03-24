@@ -64,7 +64,7 @@ function ConversationList(props) {
     const getConversations = () => {
         var currUserId = sessionStorage.getItem("user.id");
 
-        axios.get(`http://${config.host}/room`, {
+        axios.get(`${config.host}/room`, {
             params: {
                 "user_id": sessionStorage.getItem("user.id")
             },
