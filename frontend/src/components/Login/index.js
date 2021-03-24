@@ -28,7 +28,7 @@ export default function Login ({setToken}) {
     }
 
     const login = () => {
-        Axios.post(`http://${config.host}/auth/login`, {
+        Axios.post(`${config.host}/auth/login`, {
             username: username,
             password: password,
         }).then((response) => {
