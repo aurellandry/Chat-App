@@ -4,9 +4,9 @@ import MessageList from '../MessageList';
 import config from '../../config';
 import './Messenger.css';
 
-export default function Messenger(props) {
+const ws = new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
 
-    const ws = new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
+export default function Messenger(props) {
 
     return (
         <div className="messenger">
