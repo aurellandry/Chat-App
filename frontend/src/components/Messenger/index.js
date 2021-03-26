@@ -1,7 +1,10 @@
 import React from 'react';
 import ConversationList from '../ConversationList';
 import MessageList from '../MessageList';
+import config from '../../config';
 import './Messenger.css';
+
+const ws = new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
 
 export default function Messenger(props) {
 
