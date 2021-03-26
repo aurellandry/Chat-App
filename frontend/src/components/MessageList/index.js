@@ -13,17 +13,22 @@ import './MessageList.css';
 
 const MY_USER_ID = sessionStorage.getItem("user.id");
 
+
 function MessageList(props) {
-    const [timeout, setTimeout]   = useState();
-
+    const [timeout, setTimeout] = useState();
+    const ws = new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
+    //const [ws, setWs]           = useState(new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`));
+    
     useEffect(() => {
-        connectWs(props.ws);
-        return () => {
-            props.ws.close();
-        };
-    }, [props.ws]);
+        //setWs(new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`));
+        connectWs(ws);
 
-    const reduxDispatch = (message) => {
+        return () => {
+            ws.close();
+        };
+    }, [ws.readyState]);
+
+    const dispatchMessage = (message) => {
         var msg = {
             id: props.messages.length+1,
             author: message.created_by,
@@ -55,7 +60,8 @@ function MessageList(props) {
     }
     
     const sendMessage = async (socket, msg) => {
-        config.debug && console.log(socket.readyState)
+        config.debug && console.log(socket.readyState);
+
         if (socket.readyState !== socket.OPEN) {
             try {
                 await waitForOpenConnection(socket);
@@ -70,7 +76,7 @@ function MessageList(props) {
      * @function connect
      * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
      */
-    const connectWs = async (ws) => {
+    const connectWs = (ws) => {
         var connectInterval;
         config.debug && console.log("Tentative de connexion avec le serveur...");
 
@@ -99,7 +105,7 @@ function MessageList(props) {
         // OnMessage Listener
         ws.onmessage = msg => {
             config.debug && console.log("Nouveau message socket: ", JSON.parse(msg.data));
-            reduxDispatch(JSON.parse(msg.data));
+            dispatchMessage(JSON.parse(msg.data));
         };
 
         // OnError Listener
@@ -139,8 +145,8 @@ function MessageList(props) {
             };
 
             // Envoi du message au destinataire
-            sendMessage(props.ws, JSON.stringify(msg));
-            reduxDispatch(msg);
+            sendMessage(ws, JSON.stringify(msg));
+            dispatchMessage(msg);
             event.target.msg_text.value = "";
 
             // Enregistrement du message en base de données

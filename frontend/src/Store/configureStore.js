@@ -1,7 +1,6 @@
 import { combineReducers, createStore } from 'redux';
 import messageReducer from './Reducers/messageReducer';
 import conversationReducer from './Reducers/conversationReducer';
-import wsReducer from './Reducers/wsReducer';
 import config from '../config';
 
 function saveState(state) {
@@ -27,7 +26,6 @@ function loadState() {
 const rootReducer = combineReducers({
     messageReducer,
     conversationReducer,
-    wsReducer
 });
 
 const persistedState = loadState();

@@ -3,7 +3,7 @@ import Routes from "../../Routes";
 import Navigation from '../Navigation/index';
 import { Provider } from 'react-redux';
 import Store from '../../Store/configureStore';
- 
+
 class App extends Component {
     render() {
         return (

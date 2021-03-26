@@ -1,12 +1,9 @@
 import React from 'react';
 import ConversationList from '../ConversationList';
 import MessageList from '../MessageList';
-import config from '../../config';
 import './Messenger.css';
 
 export default function Messenger(props) {
-
-    const ws = new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
 
     return (
         <div className="messenger">
@@ -34,7 +31,7 @@ export default function Messenger(props) {
             </div>
 
             <div className="scrollable content">
-                <MessageList ws={ws} />
+                <MessageList ws={props.ws} />
             </div>
         </div>
     );

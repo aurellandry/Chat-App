@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import ConversationSearch from '../ConversationSearch/index';
 import ConversationListItem from '../ConversationListItem/index';
 import Toolbar from '../Toolbar/index';

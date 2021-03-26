@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Redirect } from "react-router-dom";
 
-const GuardedRoute = ({ component: Component, auth, ...rest }) => (
+const GuardedRoute = ({ component: Component, auth, ws, ...rest }) => (
     <Route {...rest} render={(props) => (
         auth === true
-            ? <Component {...props} />
+            ? <Component ws={ws} {...props} />
             : <Redirect to='/connexion' />
     )} />
 )
