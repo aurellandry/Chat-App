@@ -154,6 +154,11 @@ wss.on('connection', function connection(ws, request, client) {
         }
     }); 
 
+    ws.on("error", function(error) {
+        // Manage error here
+        console.log(error);
+    });
+
     ws.on('close', () => {
         console.log('Connexion lost with user : ' + user_id);
         users_ws[user_id] = undefined;

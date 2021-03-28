@@ -12,21 +12,19 @@ import states from '../../Store/States/states';
 import './MessageList.css';
 
 const MY_USER_ID = sessionStorage.getItem("user.id");
-
+const websocket  = new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
 
 function MessageList(props) {
     const [timeout, setTimeout] = useState();
-    const ws = new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
-    //const [ws, setWs]           = useState(new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`));
+    const [ws, setWs]           = useState(websocket);
     
     useEffect(() => {
-        //setWs(new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`));
         connectWs(ws);
-
         return () => {
             ws.close();
-        };
-    }, [ws.readyState]);
+            setWs(websocket);
+        }
+    }, [ws]);
 
     const dispatchMessage = (message) => {
         var msg = {
@@ -78,46 +76,50 @@ function MessageList(props) {
      */
     const connectWs = (ws) => {
         var connectInterval;
-        config.debug && console.log("Tentative de connexion avec le serveur...");
+        if(sessionStorage.getItem("user.id")) {
+            //ws = new WebSocket(`${config.wsHost}/?id=${sessionStorage.getItem("user.id")}`);
+            config.debug && console.log("Tentative de connexion avec le serveur...");
 
-        // OnOpen Listener
-        ws.onopen = () => {
-            config.debug && console.log("Connexion avec le serveur réussie.");
+            // OnOpen Listener
+            ws.onopen = () => {
+                config.debug && console.log("Connexion avec le serveur réussie.");
 
-            setTimeout(250); // reset timer to 250 on open of websocket connection 
-            clearTimeout(connectInterval); // clear Interval on on open of websocket connection
-        };
+                setTimeout(250); // reset timer to 250 on open of websocket connection 
+                clearTimeout(connectInterval); // clear Interval on on open of websocket connection
+            };
 
-        // OnClose Listenener
-        ws.onclose = e => {
-            config.debug && console.log(
-                `Connexion perdue avec le serveur... Nouvelle tentative de connexion dans ${Math.min(
-                    10000 / 1000,
-                    (timeout + timeout) / 1000
-                )} seconde(s).`,
-                e.reason
-            );
+            // OnClose Listenener
+            ws.onclose = e => {
+                config.debug && console.log(
+                    `Connexion perdue avec le serveur... Nouvelle tentative de connexion dans ${Math.min(
+                        10000 / 1000,
+                        (timeout + timeout) / 1000
+                    )} seconde(s).`,
+                    e.reason
+                );
 
-            setTimeout(timeout + timeout); //increment retry interval
-            connectInterval = setTimeout(check(ws), Math.min(10000, timeout)); //call check function after timeout
-        };
+                setTimeout(timeout + timeout); //increment retry interval
+                connectInterval = setTimeout(check(ws), Math.min(10000, timeout)); //call check function after timeout
+            };
 
-        // OnMessage Listener
-        ws.onmessage = msg => {
-            config.debug && console.log("Nouveau message socket: ", JSON.parse(msg.data));
-            dispatchMessage(JSON.parse(msg.data));
-        };
+            // OnMessage Listener
+            ws.onmessage = msg => {
+                config.debug && console.log("Nouveau message socket: ", JSON.parse(msg.data));
+                dispatchMessage(JSON.parse(msg.data));
+            };
 
-        // OnError Listener
-        ws.onerror = err => {
-            config.debug && console.error(
-                "Erreur WS : ",
-                err.message,
-                "Fermeture de la socket !"
-            );
+            // OnError Listener
+            ws.onerror = err => {
+                config.debug && console.error(
+                    "Erreur WS : ",
+                    err.message,
+                    "Fermeture de la socket !"
+                );
 
-            ws.close();
-        };
+                ws.close();
+            };
+
+        }
 
     };
 
