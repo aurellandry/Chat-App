@@ -6,4 +6,4 @@
 
 L'architecture, qui est organisée en microservices, est divisée en deux : le backend (serveur de messagerie) et le frontend (interface utilisateur).
 
-Pour l'heure, cette version est encore une version de développement et toutes les fonctionnalités et les tests n'ont pas encore été implémentés.
+Le site est en production à l'adresse : https://chat-app-prod.aurellandry.fr
